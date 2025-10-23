@@ -1,19 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@/components': path.resolve(__dirname, './src/components'),
-      '@/pages': path.resolve(__dirname, './src/pages'),
-      '@/styles': path.resolve(__dirname, './src/styles'),
-      '@/services': path.resolve(__dirname, './src/services'),
-      '@/config': path.resolve(__dirname, './src/config'),
-    },
-  },
+  plugins: [react(), tsconfigPaths()],
+  // resolve: {
+  //   alias: {
+  //     '@': path.resolve(__dirname, './src'),
+  //     '@/components': path.resolve(__dirname, './src/components'),
+  //     '@/pages': path.resolve(__dirname, './src/pages'),
+  //     '@/styles': path.resolve(__dirname, './src/styles'),
+  //     '@/services': path.resolve(__dirname, './src/services'),
+  //     '@/config': path.resolve(__dirname, './src/config'),
+  //   },
+  // },
+  
   css: {
     preprocessorOptions: {
       scss: {
@@ -26,7 +28,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'http://localhost:3001',
         changeOrigin: true,
         secure: false,
       }
