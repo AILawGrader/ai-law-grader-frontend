@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentUpload from '@/components/DocumentUpload';
 import './Home.scss';
 
 const Home: React.FC = () => {
@@ -15,6 +16,8 @@ const Home: React.FC = () => {
             <button className="btn btn-secondary">Learn More</button>
           </div>
         </div>
+        
+        <DocumentUpload />
         
         <div className="features">
           <h2 className="text-center mb-4">Key Features</h2>
