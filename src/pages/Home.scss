@@ -1,0 +1,70 @@
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+  
+  .hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: $primary-color;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: $secondary-color;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.features {
+  padding: 4rem 0;
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    
+    .card {
+      text-align: center;
+      
+      h3 {
+        color: $primary-color;
+        margin-bottom: 1rem;
+      }
+      
+      p {
+        color: $secondary-color;
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .hero {
+    padding: 2rem 0;
+    
+    .hero-title {
+      font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  }
+  
+  .features {
+    padding: 2rem 0;
+  }
+}

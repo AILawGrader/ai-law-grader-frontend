@@ -1,0 +1,65 @@
+.about {
+  padding: 4rem 0;
+  
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .about-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: $primary-color;
+    margin-bottom: 2rem;
+  }
+  
+  .about-text {
+    margin-bottom: 3rem;
+    
+    p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: $dark-color;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    
+    .stat-card {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+      
+      h3 {
+        font-size: 2.5rem;
+        color: $primary-color;
+        margin-bottom: 0.5rem;
+      }
+      
+      p {
+        color: $secondary-color;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .about {
+    padding: 2rem 0;
+    
+    .about-title {
+      font-size: 2rem;
+    }
+    
+    .about-text p {
+      font-size: 1rem;
+    }
+  }
+}
