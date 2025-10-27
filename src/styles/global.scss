@@ -18,6 +18,23 @@ body {
   min-height: 100vh;
 }
 
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  &.full-page {
+    .main-content {
+      flex: 1;
+      display: flex;
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import SearchForm from './SearchForm';
-import FirmConfiguration from './FirmConfiguration';
+import { useNavigate } from 'react-router-dom';
+import SearchForm from './SearchForm.tsx';
+import FirmConfiguration from './FirmConfiguration.tsx';
+import { placesService, Place } from '../../services/placesService';
 import './LawFirmSearch.scss';
 
 interface Firm {
+  placeId: string;
   name: string;
   website: string;
   practiceArea: string;
@@ -11,22 +14,50 @@ interface Firm {
   keywords: string[];
 }
 
-const LawFirmSearch: React.FC = () => {
-  const [selectedFirm, setSelectedFirm] = useState<Firm | null>(null);
+interface SearchResults {
+  results: Place[];
+  totalResults: number;
+}
 
-  const handleSearch = async (query: string) => {
+const LawFirmSearch: React.FC = () => {
+  const navigate = useNavigate();
+  const [selectedFirm, setSelectedFirm] = useState<Firm | null>(null);
+  const [searchResults, setSearchResults] = useState<SearchResults | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSearch = async (query: string, location?: string) => {
+    setError(null);
     
-    // TODO: Replace with actual API call
-    // For now, simulate search result
-    const mockFirm: Firm = {
-      name: query,
-      website: `${query.toLowerCase().replace(/\s+/g, '')}.com`,
+    try {
+      const response = await placesService.searchLawFirms(
+        query,
+        location,
+        5000
+      );
+      
+      setSearchResults(response);
+      
+      if (response.results.length === 0) {
+        setError('No law firms found. Please try a different search.');
+      }
+    } catch (err: any) {
+      console.error('Search error:', err);
+      setError(err.response?.data?.error || 'Failed to search for law firms');
+    }
+  };
+
+  const handleSelectFirm = (place: Place) => {
+    const firm: Firm = {
+      placeId: place.placeId,
+      name: place.name,
+      website: place.website || '',
       practiceArea: 'General Practice',
-      location: 'New York, NY',
+      location: place.address || '',
       keywords: []
     };
     
-    setSelectedFirm(mockFirm);
+    setSelectedFirm(firm);
+    setSearchResults(null);
   };
 
   const handlePracticeAreaChange = (practiceArea: string) => {
@@ -47,11 +78,15 @@ const LawFirmSearch: React.FC = () => {
 
   const handleRunReport = () => {
     console.log('Running report for:', selectedFirm);
-    // TODO: Navigate to results page or trigger analysis
+    navigate('/report-progress');
   };
 
   const handleBack = () => {
     setSelectedFirm(null);
+  };
+
+  const handleBackToSearch = () => {
+    setSearchResults(null);
   };
 
   return (
@@ -64,9 +99,12 @@ const LawFirmSearch: React.FC = () => {
         </div>
 
         <div className="search-card">
-          {!selectedFirm ? (
-            <SearchForm onSearch={handleSearch} />
-          ) : (
+          {!selectedFirm && !searchResults ? (
+            <>
+              <SearchForm onSearch={handleSearch} />
+              {error && <div className="error-message">{error}</div>}
+            </>
+          ) : selectedFirm ? (
             <FirmConfiguration
               firm={selectedFirm}
               onPracticeAreaChange={handlePracticeAreaChange}
@@ -74,7 +112,32 @@ const LawFirmSearch: React.FC = () => {
               onRunReport={handleRunReport}
               onBack={handleBack}
             />
-          )}
+          ) : searchResults ? (
+            <div className="search-results">
+              <button onClick={handleBackToSearch} className="back-button">
+                ← Back to Search
+              </button>
+              <h2>Select Your Law Firm</h2>
+              {error && <div className="error-message">{error}</div>}
+              {searchResults.results.length > 0 && (
+                <div className="results-list">
+                  {searchResults.results.map((place) => (
+                    <div
+                      key={place.placeId}
+                      className="result-item"
+                      onClick={() => handleSelectFirm(place)}
+                    >
+                      <div className="result-name">{place.name}</div>
+                      <div className="result-address">{place.address}</div>
+                      {place.phoneNumber && (
+                        <div className="result-phone">{place.phoneNumber}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
