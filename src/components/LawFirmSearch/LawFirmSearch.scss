@@ -1,0 +1,42 @@
+.law-firm-search {
+  min-height: 100vh;
+  background: #2c3e50;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .search-container {
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+
+    .search-header {
+      margin-bottom: 3rem;
+
+      .search-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        line-height: 1.3;
+
+        @media (max-width: 768px) {
+          font-size: 1.75rem;
+        }
+      }
+    }
+
+    .search-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+      @media (max-width: 768px) {
+        padding: 1.5rem;
+      }
+    }
+  }
+}
+
