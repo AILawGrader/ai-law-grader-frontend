@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import SearchForm from './SearchForm.tsx';
 import FirmConfiguration from './FirmConfiguration.tsx';
 import { placesService, Place } from '../../services/placesService';
+import openaiService from '../../services/openaiService';
 import './LawFirmSearch.scss';
 
 interface Firm {
@@ -76,8 +77,25 @@ const LawFirmSearch: React.FC = () => {
     setSelectedFirm({ ...selectedFirm, keywords });
   };
 
-  const handleRunReport = () => {
+  const handleRunReport = async () => {
     console.log('Running report for:', selectedFirm);
+    
+    if (selectedFirm) {
+      const message = `Search for law firms that match the following criteria:
+- Name: ${selectedFirm.name}
+- Location: ${selectedFirm.location}
+- Practice Area: ${selectedFirm.practiceArea}
+- Keywords: ${selectedFirm.keywords.join(', ')}
+- Website: ${selectedFirm.website}`;
+
+      try {
+        const response = await openaiService.search(message);
+        console.log('OpenAI search result:', response);
+      } catch (error) {
+        console.error('Error sending to OpenAI:', error);
+      }
+    }
+    
     navigate('/report-progress');
   };
 
