@@ -55,14 +55,14 @@ export const placesService = {
   },
 
   async searchCity(city: string): Promise<CitySearchResponse> {
-    const response = await api.get('/api/places-test/city', { 
+    const response = await api.get('/api/places/city', { 
       params: { city } 
     });
     return response.data;
   },
 
   async getPlaceDetails(placeId: string): Promise<Place> {
-    const response = await api.get(`/api/places-test/${placeId}`);
+    const response = await api.get(`/api/places/${placeId}`);
     return response.data;
   },
 };
